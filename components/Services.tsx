@@ -77,18 +77,29 @@ export default function Services() {
   return (
 
     <section
+      id="services"
       className="relative w-full px-6 md:px-[6vw] py-20 md:py-[160px] [font-family:blauer]"
       style={{ background: "var(--background)" }}
     >
 
       {/* HEADER */}
 
-      <div
-        className="flex justify-between mb-16 md:mb-[80px] text-[11px] md:text-[15px] tracking-[0.25em] uppercase"
-        style={{ color: "var(--text-muted)" }}
-      >
-        <span>+ SERVICES</span>
-        <span>{`{03}`}</span>
+      <div className="text-center mb-[30px] max-w-[1400px] mx-auto">
+
+        <h2
+          className="text-[42px] md:text-[64px] font-light tracking-[-0.03em] leading-[1.05]"
+          style={{ color: "var(--text)" }}
+        >
+          OUR SERVICES
+        </h2>
+
+        <p
+          className="mt-6 text-[15px] md:text-[16px] max-w-[420px] mx-auto leading-[1.6]"
+          style={{ color: "var(--text-muted)" }}
+        >
+          Look at our services to document your moments with care, emotion, and timeless storytelling.
+        </p>
+
       </div>
 
 

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 
 const testimonials = [
   {
@@ -49,33 +49,71 @@ export default function Testimonials() {
 
   const [active, setActive] = useState(0)
 
+  const startX = useRef(0)
+  const cardRef = useRef<HTMLDivElement>(null)
+
   const lines = testimonials[active].text.split("\n")
+
+  /* TOUCH SWIPE */
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    startX.current = e.touches[0].clientX
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+
+    const diff = e.touches[0].clientX - startX.current
+
+    if (cardRef.current) {
+      cardRef.current.style.transform = `rotateY(${diff * 0.08}deg)`
+    }
+
+  }
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+
+    const diff = e.changedTouches[0].clientX - startX.current
+
+    if (Math.abs(diff) > 60) {
+
+      if (diff < 0) {
+        setActive((prev) => (prev + 1) % testimonials.length)
+      } else {
+        setActive((prev) => (prev - 1 + testimonials.length) % testimonials.length)
+      }
+
+    }
+
+    if (cardRef.current) {
+      cardRef.current.style.transform = `rotateY(0deg)`
+    }
+
+  }
 
   return (
 
-    <section className="relative w-full px-[6vw] py-[160px] font-[blauer]">
+    <section 
+    id="testimonials"
+    className="relative w-full px-[6vw] py-[160px] font-[blauer]">
 
       <div className="max-w-[1400px] mx-auto">
 
         {/* HEADER */}
 
-        <div className="flex justify-between mb-[80px] text-[11px] md:text-[15px] tracking-[0.25em] uppercase text-white/60">
-          <span>+ TESTIMONIALS</span>
-          <span>{`{04}`}</span>
-        </div>
-
 
         {/* TITLE */}
 
-        <div className="text-center mb-[30px] max-w-[1400px] mx-auto">
+        <div className="text-center mb-[30px]">
 
-          <h2 className="text-[42px] md:text-[64px] font-light tracking-[-0.03em] leading-[1.05]">
-            WHAT MY CLIENTS SAY
+          <h2 className="text-[30px] md:text-[64px] font-light tracking-[-0.03em] leading-[1.05]">
+            WHAT OUR CLIENTS SAY
           </h2>
 
-          <p className="mt-6 text-[15px] md:text-[16px] max-w-[420px] mx-auto leading-[1.6]"
-            style={{ color: "var(--text-muted)" }}>
-            Words that mean the world
+          <p
+            className="mt-4 text-[14px] md:text-[16px] max-w-[420px] mx-auto leading-[1.6]"
+            style={{ color: "var(--text-muted)" }}
+          >
+            A few words from the people who trusted us to capture their special moments.
           </p>
 
         </div>
@@ -83,18 +121,23 @@ export default function Testimonials() {
 
         {/* MAIN CARD */}
 
-        <div className="relative w-full h-[575px] overflow-hidden rounded-sm">
+        <div
+          ref={cardRef}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          className="relative w-full h-[420px] md:h-[575px] overflow-hidden rounded-sm"
+          style={{ perspective: "1200px" }}
+        >
 
           {/* IMAGE */}
 
           <img
             key={active}
             src={testimonials[active].image}
-            className="
-            absolute inset-0 w-full h-full object-cover
-            transition-opacity duration-[900ms] ease-out
-            "
+            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-[900ms] ease-out"
           />
+
 
           {/* GRADIENT */}
 
@@ -103,33 +146,27 @@ export default function Testimonials() {
 
           {/* TEXT */}
 
-          <div className="absolute left-[40px] top-[40px] max-w-[520px]">
+          <div className="absolute left-[20px] md:left-[40px] top-[20px] md:top-[40px] max-w-[85%] md:max-w-[520px]">
 
-            <span className="text-[11px] md:text-[15px] tracking-[0.25em] text-[var(--text-muted)]">
+            <span className="text-[10px] md:text-[15px] tracking-[0.25em] text-[var(--text-muted)]">
 
               {`{0${active + 1}}`}
 
             </span>
 
 
-            <div className="mt-6 text-[20px] md:text-[24px] leading-[1.5]">
+            <div className="mt-4 md:mt-6 text-[16px] md:text-[24px] leading-[1.5]">
 
               {lines.map((line, i) => (
 
-                <p
-                  key={i}
-                  className="testimonial-line"
-                  style={{ animationDelay: `${i * 0.18}s` }}
-                >
-                  {line}
-                </p>
+                <p key={i}>{line}</p>
 
               ))}
 
             </div>
 
 
-            <div className="mt-6 text-[11px] md:text-[15px] text-[var(--text-muted)] uppercase tracking-[0.25em]">
+            <div className="mt-4 md:mt-6 text-[10px] md:text-[15px] text-[var(--text-muted)] uppercase tracking-[0.25em]">
 
               — {testimonials[active].name}, {testimonials[active].role}
 
@@ -138,9 +175,9 @@ export default function Testimonials() {
           </div>
 
 
-          {/* THUMBNAILS */}
+          {/* THUMBNAILS (DESKTOP ONLY) */}
 
-          <div className="absolute bottom-[24px] left-[40px] flex gap-3">
+          <div className="absolute bottom-[24px] left-[40px] hidden md:flex gap-3">
 
             {testimonials.map((item, i) => (
 
@@ -152,11 +189,7 @@ export default function Testimonials() {
 
                 <img
                   src={item.image}
-                  className={`
-                  w-full h-full object-cover
-                  transition-opacity duration-500 ease-out
-                  ${active === i ? "opacity-100" : "opacity-40"}
-                  `}
+                  className={`w-full h-full object-cover transition-opacity duration-500 ${active === i ? "opacity-100" : "opacity-40"}`}
                 />
 
               </div>

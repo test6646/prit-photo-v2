@@ -7,28 +7,29 @@
 
 :root {
   /* backgrounds */
-  --background: #0b0b0c;
-  --surface: #121214;
-  --surface-2: #1a1a1d;
+  --background: #111111;
+  --surface: #1a1a1a;
+  --surface-2: #242424;
 
   /* text */
-  --text: #f5f5f7;
-  --text-muted: #b8b8bd;
+  --text: #eeeeee;
+  --text-muted: #9a9a9a;
 
-  /* silver accents */
-  --silver: #d1d1d6;
-  --silver-soft: #a1a1a6;
+  /* accents */
+  --silver: #d4d4d4;
+  --silver-soft: #bfbfbf;
 
   /* borders */
-  --border: #2a2a2e;
+  --border: #3a3a3a;
 
   /* highlight */
-  --accent: #e5e5ea;
+  --accent: #ffffff;
 }
 
 body {
   background: var(--background);
   color: var(--text);
+  
 }
 
 @keyframes spinSlow {

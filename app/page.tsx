@@ -6,6 +6,8 @@ import Testimonials from '@/components/Testimonials'
 import Services from '@/components/Services'
 import FAQ from '@/components/FAQ'
 import Footer from '@/components/Footer'
+import ContactForm from '@/components/ContactForm'
+import RecentEvents from '@/components/RecentStories'
 
 function page() {
   return <>
@@ -13,8 +15,10 @@ function page() {
     <Navbar/>
     <Landing/>
     <AboutSection/>
+    <RecentEvents/>
     <Services/>
     <Testimonials/>
+    <ContactForm/>
     <FAQ/>
     <Footer/>
   </div>
