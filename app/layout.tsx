@@ -1,6 +1,7 @@
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
-import CursorFollower from "@/components/CursorFollower"
+import CursorFollower from "@/components/CursorFollower";
+import Loader from "@/components/Loader";
 
 export default function RootLayout({
   children,
@@ -11,7 +12,8 @@ export default function RootLayout({
     <html lang="en">
       <body>
 
-        {/* Global smooth scrolling */}
+        <Loader />
+
         <SmoothScroll />
         <CursorFollower />
 

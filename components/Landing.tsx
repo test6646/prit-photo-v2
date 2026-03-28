@@ -30,7 +30,7 @@ export default function Landing() {
     const desktopImgRefs = useRef<(HTMLImageElement | null)[]>([])
     const mouse = useRef({ x: 0, y: 0 })
     const target = useRef({ x: 0, y: 0 })
-    const raf = useRef<number>()
+    const raf = useRef<number | null>(null)
     const isMobile = useRef(false)
 
     const [time, setTime] = useState("")
